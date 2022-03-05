@@ -1,0 +1,35 @@
+version: "3.7"
+x-api-defaults: &api_defaults
+  build:
+    context: .
+    dockerfile: api/django.Dockerfile
+  depends_on:
+    - db
+
+services:
+  db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=hugraph
+      - POSTGRES_PASSWORD=password
+    command: [ "postgres", "-c", "log_statement=all" ]
+
+  api:
+    <<: *api_defaults
+    ports:
+      - "8000:8000"
+    environment:
+      - API_SERVICE=true
+
+volumes:
+  db-data:
+    driver: "local"
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "mnt/d/data/postgres"

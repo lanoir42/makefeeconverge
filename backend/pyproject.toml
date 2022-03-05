@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "backend for makefeeconverge"
+authors = ["Geumil Bae <geumil.bae@lanoir42.org>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^4.0.3"
+python-decouple = "^3.6"
+psycopg2 = "^2.9.3"
+black = "^22.1.0"
+isort = "^5.10.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0.1"
+pytest-django = "^4.4.0"
+testcontainers = {extras = ["postgres"], version = "^3.4.2"}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "api.settings.test"
+addopts = "-vvs --reuse-db --nomigrations"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+log_cli_level = "debug"
+markers = [
+    "integration: marks integration tests (like interaction to Naver news web site, Coocon API, etc.)",
+]
+
+[tool.coverage.run]
+omit = ["**/*apps.py", "**/*migrations/*", "**/*settings*", "**/*tests/*", "**/*urls.py", "**/*wsgi/*", "**/manage.py", "**/*asgi/*"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
