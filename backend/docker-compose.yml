@@ -13,10 +13,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=hugraph
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=$PG_DATABASE
+      - POSTGRES_PASSWORD=$PG_PASSWORD
     command: [ "postgres", "-c", "log_statement=all" ]
 
   api:
@@ -32,4 +34,4 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "mnt/d/data/postgres"
+      device: "/data/postgresql"

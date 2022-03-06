@@ -17,7 +17,7 @@ WORKDIR /app/src
 COPY ./pyproject.toml ./poetry.lock ./
 ENV PATH=/root/.poetry/bin:$PATH
 RUN pip install poetry dumb-init && poetry install --no-interaction --no-ansi --no-dev
-COPY api .
+COPY . .
 
 EXPOSE 8000
 WORKDIR /app/src/api
